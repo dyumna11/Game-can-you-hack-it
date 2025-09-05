@@ -17,7 +17,7 @@ body{
 
 }
 .dino{
-    background-image: url(new-orange.png);
+    background-image: url(images/person-img.png);
     background-repeat: no-repeat;
     background-size: cover;
     width: 260px;
@@ -28,7 +28,7 @@ body{
 
 }
 .obstacle{
-    background-image: url(blueee.png);
+    background-image: url(images/blueee.png);
     width: 190px;
     height: 150px;
     background-size: cover;
@@ -88,5 +88,3 @@ body{
        
     }
 }
-
-
