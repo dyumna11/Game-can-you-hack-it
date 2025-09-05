@@ -16,23 +16,25 @@ body {
 
 .gameContainer {
     background-image: url(background.png);
-    background-repeat: repeat-x;   /* repeat horizontally for scrolling */
-    background-size: cover;        /* fit screen height */
+    background-repeat: repeat-x;   
+    background-size: cover;        
     background-position: bottom center;
     width: 100%;
     height: 100vh;
 
-    /* animation to move screen */
     animation: moveBackground 5s linear infinite;
     animation-play-state: running;
+    transition: background-image 0s ease-in-out;
 }
 
 .gameContainer.paused{
     animation-play-state: paused;
 }
 
+
+
 .dino {
-    background-image: url(new-orange.png);
+    background-image: url(mario.png);
     background-repeat: no-repeat;
     background-size: cover;
     width: 260px;
@@ -40,10 +42,12 @@ body {
     position: absolute;
     bottom: 0;
     left: 52px;
+
 }
 
+
 .obstacle {
-    background-image: url(images/blueee.png);
+    background-image: url(images/pothole.png);
     width: 190px;
     height: 150px;
     background-size: cover;
@@ -52,12 +56,34 @@ body {
     left: 44vw;
 }
 
+.bird {
+    background-image: url(rose-img.png);
+    width: 150px;
+    height: 200px;
+    top: 20vh;
+    right: -200px;
+    background-size: cover;
+    position: absolute;
+}
+
+.bird.hidden{
+    display: none;
+}
+
 .animateDino {
     animation: dino 0.6s linear;
 }
 
 .obstacleAni {
     animation: obstacleAni 5s linear infinite;
+}
+
+.coupleAni {
+    animation: coupleAni 5s linear infinite;
+}
+
+.birdAni {
+    animation: birdfly 6s linear infinite;
 }
 
 .gameOver {
@@ -69,12 +95,28 @@ body {
     font-size: 53px;
 }
 
+
+
 #scoreCont {
     position: absolute;
     font-size: 25px;
     font-weight: bold;
     color: #545d7b;
     right: 45px;
+    top: 31px;
+    border: 2px solid rgb(24, 24, 24);
+    padding: 10px;
+    font-family: sans-serif;
+    width: 112px;
+    border-radius: 10px;
+}
+
+#RoseCont {
+    position: absolute;
+    font-size: 25px;
+    font-weight: bold;
+    color: #545d7b;
+    right: 180px;
     top: 31px;
     border: 2px solid rgb(24, 24, 24);
     padding: 10px;
@@ -94,9 +136,15 @@ body {
     100% { left: -10vw; }
 }
 
+@keyframes birdfly {
+    0% { right: -200px; }
+    100% { right: 100vw; }
+}
+
+
+
 
 @keyframes moveBackground {
     from { background-position: 0 bottom; }
     to { background-position: -100vw bottom; }
 }
-

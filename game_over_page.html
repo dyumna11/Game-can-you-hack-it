@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="restart-page">
+        <div class="title-page">LOVERS' BENCH IS STILL EMPTY</div>
+        <button class="restartButton"><a href="frontpage.html">Restart Game</button>
+    </div>
+</body>
+</html>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+    html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+  background-image: url("game_over_bg.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Press Start 2P", cursive;
+  color: #fff;
+}
+.restart-page {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;   
+  height: 100vh;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.title-page {
+    display: flex;
+  font-size: 45px;
+  margin-bottom: 75px; 
+  color: #181616;
+  text-shadow: 0 0 5px #fff, 0 0 10px #f0f, 0 0 20px #0ff;
+  font-family: "Press Start 2P", cursive;
+  margin-bottom: 100px;
+}
+.restartButton {
+   
+    display: inline-block;
+  padding: 12px 25px;
+  background-color: #ff0;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid #fff;
+  border-radius: 0;
+  box-shadow: 0 0 5px #fff, 0 0 10px #0f0;
+  transition: all 0.2s ease-in-out;
+
+}
+.restartButton:hover{
+    background-color: #0f0;
+  color: #000;
+  box-shadow: 0 0 10px #fff, 0 0 20px #0f0;
+  transform: scale(1.2);
+
+}
+  
+</style>
