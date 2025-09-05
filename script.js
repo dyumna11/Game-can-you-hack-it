@@ -2,11 +2,14 @@ score=0;
 cross=true;
  audio = new Audio('music.mp3');
  audiogo = new Audio('gameover.mp3');
- 
+let gameActive = true; 
 setTimeout(() => {
     audio.play()
 }, 1000);
 document.onkeydown = function(e) {
+    if(!gameActive){
+        return;
+    }
     console.log("key pressed is:", e.key);
     if (e.key === "ArrowUp") {
         const dino = document.querySelector('.dino');
@@ -15,59 +18,78 @@ document.onkeydown = function(e) {
             dino.classList.remove('animateDino')
         }, 700);
     }
-    if (e.key === "ArrowLeft") {
-        const dino = document.querySelector('.dino');
-        dinoX=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
-        dino.style.left=dinoX-112+"px";
-        
+
+     if (e.key === "ArrowLeft") {
+    const dino = document.querySelector('.dino');
+    let dinoX = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'));
+    if (dinoX > 0) {   // keep inside left boundary
+        dino.style.left = (dinoX - 112) + "px";
     }
-    if (e.key === "ArrowRight") {
-        const dino = document.querySelector('.dino');
-        dinoX=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
-        dino.style.left=dinoX+112+"px";
-       
-        
 }
+
+if (e.key === "ArrowRight") {
+    const dino = document.querySelector('.dino');
+    let dinoX = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'));
+    let screenWidth = window.innerWidth;  // total width of viewport
+    let dinoWidth = dino.offsetWidth;     // width of fish
+
+    if (dinoX + dinoWidth < screenWidth) {  // keep inside right boundary
+        dino.style.left = (dinoX + 112) + "px";
+    }
+}       
 }
+
+let gameRunning = true;
+
 setInterval(()=>
 {
-    dino = document.querySelector('.dino');
-    gameOver = document.querySelector('.gameOver');
-obstacle = document.querySelector('.obstacle');
+    if (!gameRunning) return; // stop checking after game over
+    if(!gameActive)return;
+    let dino = document.querySelector('.dino');
+    let gameOver = document.querySelector('.gameOver');
+    let obstacle = document.querySelector('.obstacle');
+    let pothole = document.querySelector('.pothole');
 
     
-    dx=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
-    dy=parseInt(window.getComputedStyle(dino,null).getPropertyValue('top'));
-    ox=parseInt(window.getComputedStyle(obstacle,null).getPropertyValue('left'));
-    oy=parseInt(window.getComputedStyle(obstacle,null).getPropertyValue('top'));
-    offsetX=Math.abs(dx-ox);
-    offsetY=Math.abs(dy-oy);
-    if(offsetX<73 && offsetY<52)
+    let dx=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
+    let dy=parseInt(window.getComputedStyle(dino,null).getPropertyValue('top'));
+    let ox=parseInt(window.getComputedStyle(obstacle,null).getPropertyValue('left'));
+    let oy=parseInt(window.getComputedStyle(obstacle,null).getPropertyValue('top'));
+   
+    let offsetX=Math.abs(dx-ox);
+    let offsetY=Math.abs(dy-oy);
+
+   
+    if(offsetX<73 && offsetY<200)
     {
-        gameOver.innerHTML="Game Over- Reload to start over";
+        gameOver.innerHTML = "Game Over - Reload to start over";
         obstacle.classList.remove('obstacleAni');
+        gameRunning = false;
+        gameActive=false;
+        score = 0; // reset score
+        updateScore(score);
+        document.querySelector('.gameContainer').classList.add('paused');
         audiogo.play();
         setTimeout(() => {
             audiogo.pause();
             audio.pause();
-    
         }, 1000);
 
     }
-    else if (offsetX < 145 && cross) {
+    else if (offsetX < 100 && cross) {
         score += 1;
         updateScore(score);
         cross = false;
         setTimeout(() => {
             cross = true;
         }, 1000);
+
         setTimeout(() => {
             aniDur = parseFloat(window.getComputedStyle(obstacle, null).getPropertyValue('animation-duration'));
             newDur = aniDur - 0.1;
             obstacle.style.animationDuration = newDur + 's';
             console.log('New animation duration: ', newDur)
         }, 500);
-
     }
 
 }, 10);
@@ -82,6 +104,11 @@ function restartGame() {
     score = 0;
     cross = true;
     gameOver.innerHTML = "";
+    let obstacle = document.querySelector('.obstacle');
     obstacle.classList.add('obstacleAni'); 
+    obstacle.style.left = (Math.random() * 70 + 20) + "vw";
+    document.querySelector('.gameContainer').classList.remove('paused');
     audio.play();
+    gameRunning = true;
+
 }
