@@ -3,13 +3,16 @@ cross=true;
  audio = new Audio('music.mp3');
  audiogo = new Audio('gameover.mp3');
 let gameActive = true; 
+
 setTimeout(() => {
     audio.play()
 }, 1000);
+
 document.onkeydown = function(e) {
     if(!gameActive){
         return;
     }
+    
     console.log("key pressed is:", e.key);
     if (e.key === "ArrowUp") {
         const dino = document.querySelector('.dino');
@@ -19,7 +22,7 @@ document.onkeydown = function(e) {
         }, 700);
     }
 
-     if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft") {
     const dino = document.querySelector('.dino');
     let dinoX = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'));
     if (dinoX > 0) {   // keep inside left boundary
@@ -30,25 +33,40 @@ document.onkeydown = function(e) {
 if (e.key === "ArrowRight") {
     const dino = document.querySelector('.dino');
     let dinoX = parseInt(window.getComputedStyle(dino, null).getPropertyValue('left'));
-    let screenWidth = window.innerWidth;  // total width of viewport
-    let dinoWidth = dino.offsetWidth;     // width of fish
+    let screenWidth = window.innerWidth;  
+    let dinoWidth = dino.offsetWidth;    
 
-    if (dinoX + dinoWidth < screenWidth) {  // keep inside right boundary
+    if (dinoX + dinoWidth < screenWidth) {  
         dino.style.left = (dinoX + 112) + "px";
     }
-}       
+} 
 }
+
+
+let bgImgs = ["background.png","images/lhtc.png","central_mess.png"];
+let currImg = 0;
+
+function changeBg(){
+    if(!gameActive||!gameRunning)return;
+    currImg = (currImg+1)%bgImgs.length;
+    document.querySelector(".gameContainer").style.backgroundImage = `url(${bgImgs[currImg]})`;
+}
+
+
+setInterval(changeBg,5000);
+
 
 let gameRunning = true;
 
+
 setInterval(()=>
 {
-    if (!gameRunning) return; // stop checking after game over
+   
+    if (!gameRunning) return; 
     if(!gameActive)return;
     let dino = document.querySelector('.dino');
     let gameOver = document.querySelector('.gameOver');
     let obstacle = document.querySelector('.obstacle');
-    let pothole = document.querySelector('.pothole');
 
     
     let dx=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
@@ -62,11 +80,11 @@ setInterval(()=>
    
     if(offsetX<73 && offsetY<200)
     {
-        gameOver.innerHTML = "Game Over - Reload to start over";
+        gameOver.innerHTML = "Skill Issue - Reload to start over";
         obstacle.classList.remove('obstacleAni');
         gameRunning = false;
         gameActive=false;
-        score = 0; // reset score
+        score = 0;
         updateScore(score);
         document.querySelector('.gameContainer').classList.add('paused');
         audiogo.play();
@@ -92,11 +110,15 @@ setInterval(()=>
         }, 500);
     }
 
+    
+
 }, 10);
 
-    
-function updateScore(score) {
 
+
+
+
+function updateScore(score) {
     scoreCont.innerHTML = "Your Score:"+score
 }
 
@@ -106,6 +128,8 @@ function restartGame() {
     gameOver.innerHTML = "";
     let obstacle = document.querySelector('.obstacle');
     obstacle.classList.add('obstacleAni'); 
+    
+   
     obstacle.style.left = (Math.random() * 70 + 20) + "vw";
     document.querySelector('.gameContainer').classList.remove('paused');
     audio.play();
