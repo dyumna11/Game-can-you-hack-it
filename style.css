@@ -148,3 +148,41 @@ body {
     from { background-position: 0 bottom; }
     to { background-position: -100vw bottom; }
 }
+
+.couple {
+  position: absolute;
+  bottom: 0;
+  left: 100vw; 
+  width: 100px;
+  height: 120px;
+  background: url("couple.png") no-repeat center/cover;
+}
+
+.coupleAni {
+  animation: coupleMove 8s linear infinite;
+}
+
+@keyframes coupleMove {
+  from { left: 100vw; }
+  to { left: -150px; }
+}
+
+.bullet {
+  position: absolute;
+  bottom: 80px; 
+  width: 30px;
+  height: 10px;
+  z-index: 10;
+  background: yellow;
+  display: none;
+}
+
+.bulletAni {
+  animation: bulletMove 2s linear forwards;
+}
+
+@keyframes bulletMove {
+  from { left: var(--bullet-start); }
+  to { left: 100vw; }
+}
+
