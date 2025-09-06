@@ -11,6 +11,24 @@
         <h1>WELCOME!</h1>
         <p>Press START to enter the chaos!</p>
         <a href="index.html" class="start-btn">START</a>
+    <button class="instruction-btn" onclick="toggleInstructions()">INSTRUCTIONS MANUAL</button>
+    <div id="instructions" class="instructions-box">
+      <ul>
+        <li>➡ Use arrow keys to move and Jump</li>
+        <li>💀 Avoid obstacles(potholes) to survive</li>
+        <li>⭐ Collect roses for your girl</li>
+        <li>🔫 Colliding with couples takes away one of your roses .</li>
+        <li>🕹 Press SPACE to shoot Couples with bullets</li>
+        <li>🌟Gain 10 points to reach your destination</li>
+        <li>🎯 Reach MS to get your girl</li>
+      </ul>
     </div>
+  </div>
 </body>
+<script>
+  function toggleInstructions() {
+    const box = document.getElementById("instructions");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  }
+</script>
 </html>
