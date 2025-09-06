@@ -6,7 +6,8 @@ cross=true;
  audio = new Audio('music.mp3');
  audiogo = new Audio('gameover.mp3');
 let gameActive = true; 
-
+let coupleActive = false;
+let bulletActive = false;
 setTimeout(() => {
     audio.play()
 }, 1000);
@@ -43,6 +44,10 @@ if (e.key === "ArrowRight") {
         dino.style.left = (dinoX + 112) + "px";
     }
 } 
+
+ if (e.code === "Space" && !bulletActive) {
+        fireBullet();
+    }
 }
 
 
@@ -53,6 +58,30 @@ function changeBg(){
     if(!gameActive||!gameRunning)return;
     currImg = (currImg+1)%bgImgs.length;
     document.querySelector(".gameContainer").style.backgroundImage = `url(${bgImgs[currImg]})`;
+}
+
+function fireBullet() {
+    let bullet = document.querySelector('.bullet');
+    let dino = document.querySelector('.dino');
+
+    let dx=parseInt(window.getComputedStyle(dino,null).getPropertyValue('left'));
+    let dy=parseInt(window.getComputedStyle(dino,null).getPropertyValue('top'));
+    let dinoWidth = dino.offsetWidth;
+
+    bulletStartX = dx+dinoWidth-20;
+    bullet.style.left =bulletStartX+ "px"; 
+    bullet.style.bottom = "125px";
+    
+    bullet.style.display = "block";
+    bullet.style.setProperty('--bullet-start', bulletStartX + 'px');
+    bullet.classList.add('bulletAni');
+    bulletActive = true;
+    
+    setTimeout(() => {
+        bullet.classList.remove('bulletAni');
+        bullet.style.display = "none";
+        bulletActive = false;
+    }, 2000);
 }
 
 
@@ -118,6 +147,45 @@ setInterval(()=>
     
 
 }, 10);
+
+
+
+setInterval(() => {
+    if (!gameRunning || !gameActive) return;
+
+    let couple = document.querySelector('.couple');
+    let bullet = document.querySelector('.bullet');
+
+    let cx = parseInt(window.getComputedStyle(couple,null).getPropertyValue('left'));
+    let cy = parseInt(window.getComputedStyle(couple,null).getPropertyValue('top'));
+    let bx = parseInt(window.getComputedStyle(bullet,null).getPropertyValue('left'));
+    let by = parseInt(window.getComputedStyle(bullet,null).getPropertyValue('top'));
+
+    let offsetX = Math.abs(cx - bx);
+    let offsetY = Math.abs(cy - by);
+    
+    if (offsetX < 50 && offsetY < 50 && coupleActive) {
+        couple.classList.remove('coupleAni');
+        couple.style.display = "none";
+        console.log("Couple killed!");
+        setTimeout(() => {
+            console.log(offsetX);
+            console.log(offsetY);
+            couple.style.display = "block";
+            couple.classList.add('coupleAni');
+        }, 5000);
+    }
+}, 10);
+
+
+function spawnCouple() {
+    let couple = document.querySelector('.couple');
+    if (!coupleActive) {
+        couple.classList.add('coupleAni');
+        coupleActive = true;
+    }
+}
+setTimeout(spawnCouple, 2000);
 
 function collectRose(birdElement) {
     birdElement.classList.add('hidden');
